@@ -2,21 +2,23 @@
 <html>
   <head>
     <title>Projeto RA - XR</title>
-    
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     
     <script>
-      AFRAME.registerComponent('mudar-cor-ao-clicar', {
+      AFRAME.registerComponent('interacao', {
         init: function () {
-          var el = this.el; 
-          // Detecta toque na tela/clique
+          var el = this.el;
+          // Evento de clique no objeto
           el.addEventListener('click', function () {
-            var novaCor = '#'+Math.floor(Math.random()*16777215).toString(16);
-            el.setAttribute('color', novaCor);
-            alert("Sucesso! Você interagiu com o objeto.");
+            // Muda para uma cor aleatória
+            var cores = ['red', 'blue', 'green', 'orange', 'purple'];
+            var corSorteada = cores[Math.floor(Math.random() * cores.length)];
+            
+            el.setAttribute('material', 'color', corSorteada);
+            alert("Objeto detectado! Cor alterada para: " + corSorteada);
           });
         }
       });
@@ -25,20 +27,22 @@
   
   <body style="margin : 0px; overflow: hidden;">
     
-    <a-scene 
-        embedded 
-        arjs 
-        vr-mode-ui="enabled: false"
-        renderer="logarithmicDepthBuffer: true;" 
-        cursor="rayOrigin: mouse" 
-        raycaster="objects: .clicavel">
-      
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" 
+             vr-mode-ui="enabled: false"
+             renderer="logarithmicDepthBuffer: true;"
+             cursor="rayOrigin: mouse" 
+             raycaster="objects: .clicavel">
+
       <a-marker preset="hiro">
+        
         <a-box position="0 0.5 0" 
-               material="color: yellow;" 
+               scale="0.5 0.5 0.5"
+               material="color: red; opacity: 0.9;" 
                class="clicavel"
-               mudar-cor-ao-clicar>
+               animation="property: rotation; to: 0 360 0; loop: true; dur: 5000"
+               interacao>
         </a-box>
+        
       </a-marker>
       
       <a-entity camera></a-entity>
