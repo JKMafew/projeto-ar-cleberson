@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Projeto RA - XR</title>
+    
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
@@ -9,15 +10,25 @@
     
     <script>
       AFRAME.registerComponent('interacao', {
+        
+        // A função 'init' roda uma única vez, assim que o objeto aparece na tela.
         init: function () {
-          var el = this.el;
-          // Evento de clique no objeto
+          var el = this.el; // 'el' é o cubo que recebeu esse script.
+          
+          // EVENT LISTENER: O código fica esperando um clique acontecer.
+          // No celular, o click funciona como o toque na tela.
           el.addEventListener('click', function () {
-            // Muda para uma cor aleatória
+            
+            // Cria uma lista de cores possíveis.
             var cores = ['red', 'blue', 'green', 'orange', 'purple'];
+            
+            // Seleciona uma cor de forma aleatória.
             var corSorteada = cores[Math.floor(Math.random() * cores.length)];
             
+            // Muda o atributo 'material' do cubo, trocando a cor pela sorteada.
             el.setAttribute('material', 'color', corSorteada);
+            
+            // Mostra um aviso na tela do celular confirmando a ação.
             alert("Objeto detectado! Cor alterada para: " + corSorteada);
           });
         }
@@ -32,8 +43,7 @@
              renderer="logarithmicDepthBuffer: true;"
              cursor="rayOrigin: mouse" 
              raycaster="objects: .clicavel">
-
-      <a-marker preset="hiro">
+             <a-marker preset="hiro">
         
         <a-box position="0 0.5 0" 
                scale="0.5 0.5 0.5"
@@ -41,7 +51,7 @@
                class="clicavel"
                animation="property: rotation; to: 0 360 0; loop: true; dur: 5000"
                interacao>
-        </a-box>
+               </a-box>
         
       </a-marker>
       
